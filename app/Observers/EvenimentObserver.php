@@ -24,14 +24,16 @@ class EvenimentObserver
 
     public function updating(Eveniment $eveniment) {
         try {
-            $banner_file = Str::random() . $eveniment->name . '.' . request('banner_picture')->getClientOriginalExtension();
+            if ($eveniment->isDirty('banner_picture')) {
+                $banner_file = Str::random() . $eveniment->name . '.' . request('banner_picture')->getClientOriginalExtension();
 
-            if (Storage::disk('public')->exists("eveniments/{$eveniment->banner_picture}")) {
-                Storage::disk('public')->delete($eveniment->banner_picture);
+                if (Storage::disk('public')->exists("eveniments/{$eveniment->banner_picture}")) {
+                    Storage::disk('public')->delete($eveniment->banner_picture);
+                }
+
+                Storage::disk('public')->putFileAs('eveniments', request('banner_picture'), $banner_file);
+                $eveniment->banner_picture = $banner_file;
             }
-
-            Storage::disk('public')->putFileAs('eveniments', request('banner_picture'), $banner_file);
-            $eveniment->banner_picture = $banner_file;
         } catch (\Exception $exception) {
             $this->sendDebugLogs(self::class, $exception);
         }
