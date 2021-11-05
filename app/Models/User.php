@@ -37,6 +37,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $with = ['organization'];
+
     /**
      * The attributes that should be cast.
      *
@@ -58,5 +60,9 @@ class User extends Authenticatable
             'is_admin' => false,
             'organization_id' => $organization->id,
         ]), $accountPassword];
+    }
+
+    public function organization() {
+        return $this->hasOne(Organization::class, 'owner_id');
     }
 }

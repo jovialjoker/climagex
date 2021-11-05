@@ -25,3 +25,4 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 require __DIR__.'/organization.php';
+require __DIR__.'/eveniments.php';
