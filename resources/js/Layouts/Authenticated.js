@@ -23,6 +23,12 @@ export default function Authenticated({ auth, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                {
+                                    auth.user.organization_id &&
+                                    <NavLink href={route('eveniments.index')} active={route().current('eveniments.index')}>
+                                        Events
+                                    </NavLink>
+                                }
                             </div>
                         </div>
 
@@ -93,6 +99,12 @@ export default function Authenticated({ auth, header, children }) {
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
+                        {
+                            auth.user.organization_id &&
+                            <ResponsiveNavLink href={route('eveniments.index')} active={route().current('eveniments.index')}>
+                                Events
+                            </ResponsiveNavLink>
+                        }
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
