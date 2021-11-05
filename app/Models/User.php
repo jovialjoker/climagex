@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -21,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'email_verified_at',
+        'is_admin',
+        'organization_id'
     ];
 
     /**
@@ -39,6 +43,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'is_admin' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeCreateOrganizationOwner(Organization $organization) {
+        $accountPassword = Str::random();
+
+        return [self::create([
+            'name' => $organization->name,
+            'password' => $accountPassword,
+            'email' => $organization->meta->email,
+            'email_verified_at' => now(),
+            'is_admin' => false,
+            'organization_id' => $organization->id,
+        ]), $accountPassword];
+    }
 }
