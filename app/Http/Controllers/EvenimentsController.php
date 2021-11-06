@@ -27,7 +27,9 @@ class EvenimentsController extends Controller
 
     public function edit(Eveniment $eveniment)
     {
-        return Inertia::render('Eveniments/Edit', compact('eveniment'));
+        $participants = $eveniment->getUsersForEvent($eveniment->id);
+
+        return Inertia::render('Eveniments/Edit', compact('eveniment', 'participants'));
     }
 
     public function store(EvenimentRequest $request, EvenimentTransformer $transfomer) {

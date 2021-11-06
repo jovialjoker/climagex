@@ -49,7 +49,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeCreateOrganizationOwner(Organization $organization) {
+    public function scopeCreateOrganizationOwner(Organization $organization): array
+    {
         $accountPassword = Str::random();
 
         return [self::create([
@@ -62,7 +63,14 @@ class User extends Authenticatable
         ]), $accountPassword];
     }
 
-    public function organization() {
+    public function organization(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
         return $this->hasOne(Organization::class, 'owner_id');
     }
+
+    public function eveniments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Eveniment::class);
+    }
+
 }

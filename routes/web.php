@@ -20,9 +20,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $eveniments = \App\Models\Eveniment::with('users')->paginate();
+
+    return Inertia::render('Dashboard', compact('eveniments'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/organization.php';
 require __DIR__.'/eveniments.php';
+require __DIR__.'/participants.php';
