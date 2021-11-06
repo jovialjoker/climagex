@@ -16,10 +16,10 @@ Route::middleware(['auth', 'organization'])->group(function () {
     Route::post('/events', [EvenimentsController::class, 'store'])
         ->name('eveniments.store');
 
-    Route::delete('/events/{event}', [EvenimentsController::class, 'delete'])
+    Route::delete('/events/{eveniment}', [EvenimentsController::class, 'delete'])
         ->name('eveniments.delete');
 
-    Route::patch('/events/{event}', [EvenimentsController::class, 'update'])
+    Route::patch('/events/{eveniment}', [EvenimentsController::class, 'update'])
         ->name('eveniments.update');
 
     Route::patch('/events/applications/{eveniment}', [EvenimentsController::class, 'applications'])

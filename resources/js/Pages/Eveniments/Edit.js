@@ -31,7 +31,7 @@ export default function Edit(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        post(route('eveniments.update'))
+        post(route('eveniments.update', {eveniment: eveniment.id}))
     }
 
     const handleDelete = (evenimentId, userId) => {

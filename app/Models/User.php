@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -49,18 +51,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeCreateOrganizationOwner(Organization $organization): array
+    public static function createOrganizationOwner(Organization $organization): array
     {
         $accountPassword = Str::random();
 
+        Log::debug($organization->name);
         return [self::create([
             'name' => $organization->name,
             'password' => $accountPassword,
-            'email' => $organization->meta->email,
+            'email' => $organization->meta['email'],
             'email_verified_at' => now(),
             'is_admin' => false,
-            'organization_id' => $organization->id,
         ]), $accountPassword];
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 
     public function organization(): \Illuminate\Database\Eloquent\Relations\HasOne

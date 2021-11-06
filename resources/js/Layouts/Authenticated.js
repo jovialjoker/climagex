@@ -29,6 +29,12 @@ export default function Authenticated({ auth, header, children }) {
                                         Events
                                     </NavLink>
                                 }
+                                {
+                                    auth.user.is_admin &&
+                                    <NavLink href={route('organizations.index')} active={route().current('organizations.index')}>
+                                        Organizatii
+                                    </NavLink>
+                                }
                             </div>
                         </div>
 
@@ -103,6 +109,12 @@ export default function Authenticated({ auth, header, children }) {
                             auth.user.organization_id &&
                             <ResponsiveNavLink href={route('eveniments.index')} active={route().current('eveniments.index')}>
                                 Events
+                            </ResponsiveNavLink>
+                        }
+                        {
+                            auth.user.is_admin &&
+                            <ResponsiveNavLink href={route('organizations.index')} active={route().current('organizations.index')}>
+                                Organizatii
                             </ResponsiveNavLink>
                         }
                     </div>
