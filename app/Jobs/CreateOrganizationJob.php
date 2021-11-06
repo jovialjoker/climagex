@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Mail\OrganizationCreated;
 use App\Traits\Loggable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,10 +33,10 @@ class CreateOrganizationJob implements ShouldQueue
      */
     public function handle()
     {
-        $createOrganizationMailable = new OrganizationCreated($this->details->name, $this->details->email, $this->details->password);
+        $createOrganizationMailable = new OrganizationCreated($this->details['name'], $this->details['email'], $this->details['password']);
 
         try {
-            Mail::to($this->details->email)->later(now()->seconds(15), $createOrganizationMailable);
+            Mail::to($this->details['email'])->later(now()->seconds(15), $createOrganizationMailable);
         } catch (\Exception $exception) {
             $this->sendDebugLogs(self::class, $exception);
         }

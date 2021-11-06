@@ -13,8 +13,8 @@ class Organization extends Model
         'owner_id',
         'name',
         'meta',
-        'profile_picture',
-        'type'
+        'type',
+        'description'
     ];
 
     protected $casts = [

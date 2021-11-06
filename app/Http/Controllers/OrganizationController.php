@@ -15,12 +15,9 @@ class OrganizationController extends Controller
 
     public function index(): \Inertia\Response
     {
-        return Inertia::render('Organization/Index');
-    }
+        $organizations = Organization::paginate();
 
-    public function edit(Organization $organization): \Inertia\Response
-    {
-        return Inertia::render('Organization/Edit', compact('organization'));
+        return Inertia::render('Organizations/Index', compact('organizations'));
     }
 
     public function store(OrganizationRequest $request, OrganizationTransformer $transformer): \Illuminate\Http\RedirectResponse
