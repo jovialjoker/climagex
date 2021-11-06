@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Eveniment;
 use App\Models\Organization;
+use App\Models\Reward;
 use App\Observers\EvenimentObserver;
 use App\Observers\OrganizationObserver;
+use App\Observers\RewardObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -33,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Organization::observe(OrganizationObserver::class);
         Eveniment::observe(EvenimentObserver::class);
+        Reward::observe(RewardObserver::class);
     }
 }

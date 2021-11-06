@@ -29,3 +29,4 @@ require __DIR__.'/auth.php';
 require __DIR__.'/organization.php';
 require __DIR__.'/eveniments.php';
 require __DIR__.'/participants.php';
+require __DIR__.'/rewards.php';

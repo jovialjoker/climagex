@@ -23,7 +23,7 @@ export default function Dashboard(props) {
             <div className="py-12">
                 <div className="grid grid-cols-4 grid-gaps-6 mx-auto sm:px-6 lg:px-12">
                     {
-                        (props.auth.organization_id == null || !props.auth.organization_id) &&
+                        (props.auth.user.organization_id == null || !props.auth.user.organization_id) &&
                             <>
                                 {
                             props.eveniments.data.map(eveniment => (
