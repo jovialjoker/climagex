@@ -206,6 +206,15 @@ export default function Edit(props) {
                                     </td>
                                     <td className="w-px border-t">
                                         <div className="flex items-center px-6 py-4">
+                                            {
+                                                new Date() >= new Date(eveniment.ended_at) &&
+                                                <InertiaLink href={route('reward.create', {eveniment: eveniment.id, user: user.id})}
+                                                             className="mx-1 inline-flex justify-center py-2 px-4 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  text-white bg-yellow-600"
+                                                >
+                                                    Reward
+                                                </InertiaLink>
+
+                                            }
                                             <Button className="bg-red-600" onClick={() => handleDelete(eveniment.id, user.id)}>Kick</Button>
                                         </div>
                                     </td>

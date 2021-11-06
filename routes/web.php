@@ -20,12 +20,19 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $eveniments = \App\Models\Eveniment::with('users')->paginate();
+    $organization = \Illuminate\Support\Facades\Auth::user()->organization_id;
 
-    return Inertia::render('Dashboard', compact('eveniments'));
+    if ($organization > 0) {
+        $eveniments = \App\Models\Eveniment::with('users')->where('organization_id', $organization)->get();
+        return Inertia::render('Dashboard', compact('eveniments'));
+    } else {
+        $eveniments = \App\Models\Eveniment::with('users')->paginate();
+        return Inertia::render('Dashboard', compact('eveniments'));
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/organization.php';
 require __DIR__.'/eveniments.php';
 require __DIR__.'/participants.php';
+require __DIR__.'/rewards.php';

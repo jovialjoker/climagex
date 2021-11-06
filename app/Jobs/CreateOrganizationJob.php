@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\OrganizationCreated;
 use App\Traits\Loggable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -21,7 +22,7 @@ class CreateOrganizationJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(array $details)
+    public function __construct($details)
     {
         $this->details = $details;
     }

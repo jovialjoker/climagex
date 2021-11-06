@@ -6,6 +6,7 @@ use App\Transformers\EvenimentTransformer;
 use App\Http\Requests\EvenimentRequest;
 use App\Models\Eveniment;
 use App\Traits\Loggable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -15,7 +16,7 @@ class EvenimentsController extends Controller
 
     public function index()
     {
-        $eveniments = Eveniment::paginate();
+        $eveniments = Eveniment::where('organization_id', Auth::user()->organization_id)->paginate();
 
         return Inertia::render('Eveniments/Index', compact('eveniments'));
     }
