@@ -1,11 +1,14 @@
 import React from 'react';
 import Authenticated from "@/Layouts/Authenticated";
-import { Head } from "@inertiajs/inertia-react";
+import {Head, InertiaLink} from "@inertiajs/inertia-react";
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useForm } from '@inertiajs/inertia-react';
 import ValidationErrors from "@/Components/ValidationErrors";
 import FileInput from "@/Components/FileInput";
+import Button from "@/Components/Button";
+import {Inertia} from "@inertiajs/inertia";
+import Paginate from "@/Components/Paginate";
 
 export default function Edit(props) {
     const { eveniment } = props;
@@ -23,12 +26,18 @@ export default function Edit(props) {
     })
 
     React.useEffect(() => {
-        console.log(eveniment)
+        console.log(props.participants)
     }, [])
 
     function handleSubmit(e) {
         e.preventDefault()
         post(route('eveniments.update'))
+    }
+
+    const handleDelete = (evenimentId, userId) => {
+        if (confirm('Are you sure you want to proceed?')) {
+            Inertia.delete(route('participant.leave', {eveniment: evenimentId, user: userId}))
+        }
     }
 
     const [draggable, setDraggable] = React.useState(false)
@@ -107,9 +116,9 @@ export default function Edit(props) {
 
                                 <div className="col-span-6 sm:col-span-3">
                                     <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Event Description</label>
-                                    <textarea onChange={e => setData('description', e.target.value)} id="about" name="about" rows="3"
+                                    <textarea onChange={e => setData('description', e.target.value)} value={data.description} id="about" name="about" rows="3"
                                               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                              placeholder="Enter description of event...">{data.description}</textarea>
+                                              placeholder="Enter description of event..."/>
                                 </div>
 
                                 <div className="grid grid-cols-6 gap-6">
@@ -164,6 +173,56 @@ export default function Edit(props) {
                             </div>
                         </div>
                     </form>
+
+                <div className="overflow-x-auto bg-white rounded shadow my-2">
+                    <table className="w-full whitespace-nowrap">
+                        <thead>
+                        <tr className="font-bold text-left">
+                            <th className="px-6 pt-5 pb-4">Name</th>
+                            <th className="px-6 pt-5 pb-4">Email Address</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {props.participants.data[0].users.map(user => {
+                            return (
+                                <tr
+                                    key={user.id}
+                                    className="hover:bg-gray-100 focus-within:bg-gray-100"
+                                >
+                                    <td className="border-t">
+                                        <div
+                                            className="flex items-center px-6 py-4 focus:text-indigo-700 focus:outline-none"
+                                        >
+                                            <div>{user.name}</div>
+                                        </div>
+                                    </td>
+                                    <td className="border-t">
+                                        <div
+                                            tabIndex="-1"
+                                            className="flex items-center px-6 py-4 focus:text-indigo focus:outline-none"
+                                        >
+                                            {user.email}
+                                        </div>
+                                    </td>
+                                    <td className="w-px border-t">
+                                        <div className="flex items-center px-6 py-4">
+                                            <Button className="bg-red-600" onClick={() => handleDelete(eveniment.id, user.id)}>Kick</Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                        {props.participants.data[0].users.length === 0 && (
+                            <tr>
+                                <td className="px-6 py-4 border-t" colSpan="4">
+                                    No participants found.
+                                </td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+                <Paginate links={props.participants.links} />
                 </div>
             </div>
         </Authenticated>

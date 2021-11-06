@@ -16,4 +16,18 @@ class Eveniment extends Model
     protected $casts = [
         'closed' => 'boolean'
     ];
+
+    public function organization(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function scopeGetUsersForEvent($query, $id) {
+        return $query->with('users')->where('id', $id)->paginate();
+    }
 }
