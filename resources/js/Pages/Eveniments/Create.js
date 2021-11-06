@@ -47,7 +47,6 @@ export default function Create(props) {
     }, [])
 
     React.useEffect(() => {
-        reset()
         navigator.geolocation.getCurrentPosition((pos) => {
             setLongitude(pos.coords.longitude)
             setLatitude(pos.coords.latitude)
